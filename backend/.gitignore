@@ -11,6 +11,8 @@ lerna-debug.log*
 
 query.sql
 updated_query.sql
+ca.pem
+sentiment_service.py
 .env
 node_modules
 dist

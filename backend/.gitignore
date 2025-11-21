@@ -10,7 +10,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 query.sql
-updated_query
+updated_query.sql
 .env
 node_modules
 dist

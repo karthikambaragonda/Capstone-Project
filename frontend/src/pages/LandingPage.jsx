@@ -70,7 +70,7 @@ export default function Showcase() {
 
                 <p className="text-gray-500 max-w-xl mx-auto mt-6 leading-relaxed">
                     A beautifully crafted e-commerce platform built with intelligence,
-                    personalization, analytics, and delight — inspired by Apple’s design philosophy.
+                    personalization, analytics.
                 </p>
 
                 {/* CTA Buttons */}

@@ -80,14 +80,17 @@ export default function OrdersPage() {
             await axios.put(`/api/admin/orders/${orderToCancel.id}/status`, {
                 status: "cancelled",
             });
+
             setOrders((prev) =>
                 prev.map((o) =>
                     o.id === orderToCancel.id ? { ...o, status: "cancelled" } : o
                 )
             );
+
             toast.success("Order cancelled.");
         } catch {
             toast.error("Failed to cancel order.");
+            console.log(error);
         } finally {
             setShowModal(false);
         }
@@ -105,9 +108,21 @@ export default function OrdersPage() {
         <div className="max-w-4xl mx-auto px-4 py-10 font-[system-ui]">
             <ToastContainer />
 
-            <h1 className="text-4xl font-semibold tracking-tight mb-8">
-                Your Orders
-            </h1>
+            {/* ------------------------------
+                HEADER (Back button on right)
+            ------------------------------- */}
+            <div className="flex items-center justify-between mb-8">
+                <h1 className="text-4xl font-semibold tracking-tight">
+                    Your Orders
+                </h1>
+
+                <Link
+                    to="/customer/profile"
+                    className="px-5 py-2.5 bg-black text-white rounded-2xl shadow-sm hover:bg-gray-900 transition whitespace-nowrap"
+                >
+                    ← Back to Profile
+                </Link>
+            </div>
 
             {/* Tabs */}
             <div className="flex gap-6 border-b pb-3 mb-8 text-gray-600 text-sm overflow-x-auto">

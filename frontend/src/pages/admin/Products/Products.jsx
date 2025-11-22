@@ -123,7 +123,7 @@ export default function Products() {
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-4xl font-semibold text-gray-900">Products</h1>
-                        <p className="text-sm text-gray-500 mt-1">Manage products, categories and inventory — elegant Apple-style admin.</p>
+                        <p className="text-sm text-gray-500 mt-1">Manage products, categories and inventory.</p>
                     </div>
 
                     <div className="flex items-center gap-3">

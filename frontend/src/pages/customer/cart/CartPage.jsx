@@ -67,7 +67,6 @@ export default function CartPage() {
     return (
         <div className="w-full bg-[#fafafa] min-h-screen py-20 px-4">
 
-            {/* HEADER Apple Style */}
             <h1 className="text-4xl font-semibold text-center text-gray-900 mb-12 tracking-tight">
                 Your Bag
             </h1>
@@ -78,7 +77,6 @@ export default function CartPage() {
                 </div>
             )}
 
-            {/* EMPTY CART */}
             {cart?.items?.length === 0 ? (
                 <div className="text-center py-24 bg-white rounded-3xl border border-gray-200 max-w-xl mx-auto">
                     <p className="text-gray-500 text-lg mb-6">Your bag is empty</p>
@@ -99,29 +97,33 @@ export default function CartPage() {
                                 key={item.id}
                                 className="bg-white rounded-3xl border border-gray-200 p-6 flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6"
                             >
-                                {/* IMAGE */}
-                                <div className="flex-shrink-0 w-24 h-24 bg-white rounded-2xl border border-gray-200 p-2">
-                                    <img
-                                        src={item.image_url}
-                                        alt={item.name}
-                                        className="w-full h-full object-contain"
-                                    />
-                                </div>
 
-                                {/* NAME + PRICE */}
-                                <div className="flex-grow text-center sm:text-left">
-                                    <div className="text-lg font-medium text-gray-900">
-                                        {item.name}
+                                {/* CLICKABLE PRODUCT LINK */}
+                                <Link
+                                    to={`/customer/products/${item.product_id || item.id}`}
+                                    className="flex flex-col sm:flex-row items-center sm:items-start gap-4 flex-grow text-center sm:text-left hover:opacity-80 transition"
+                                >
+                                    <div className="flex-shrink-0 w-24 h-24 bg-white rounded-2xl border border-gray-200 p-2">
+                                        <img
+                                            src={item.image_url}
+                                            alt={item.name}
+                                            className="w-full h-full object-contain"
+                                        />
                                     </div>
-                                    <div className="text-gray-500 mt-1">
-                                        ₹{Number(item.price)}
+
+                                    <div className="flex-grow">
+                                        <div className="text-lg font-medium text-gray-900">
+                                            {item.name}
+                                        </div>
+                                        <div className="text-gray-500 mt-1">
+                                            ₹{Number(item.price)}
+                                        </div>
                                     </div>
-                                </div>
+                                </Link>
 
                                 {/* QTY + TOTAL + DELETE */}
                                 <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
 
-                                    {/* QTY SELECT Apple Style */}
                                     <select
                                         value={item.quantity}
                                         onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
@@ -132,12 +134,10 @@ export default function CartPage() {
                                         ))}
                                     </select>
 
-                                    {/* TOTAL */}
                                     <div className="text-lg font-semibold text-gray-900">
                                         ₹{(item.price * item.quantity).toFixed(2)}
                                     </div>
 
-                                    {/* DELETE Apple Style */}
                                     <button
                                         onClick={() => removeItem(item.id)}
                                         className="text-gray-500 hover:text-red-600 transition p-2"
@@ -145,11 +145,12 @@ export default function CartPage() {
                                         <TrashIcon className="h-6 w-6" />
                                     </button>
                                 </div>
+
                             </div>
                         ))}
                     </div>
 
-                    {/* RIGHT - ORDER SUMMARY (APPLE STYLE PANE) */}
+                    {/* RIGHT - ORDER SUMMARY */}
                     <div className="bg-white rounded-3xl border border-gray-200 p-8 h-fit">
                         <h2 className="text-2xl font-semibold text-gray-900 mb-6 tracking-tight">
                             Order Summary
@@ -157,7 +158,6 @@ export default function CartPage() {
 
                         <div className="space-y-5 text-gray-700">
 
-                            {/* SUBTOTAL */}
                             <div className="flex justify-between text-sm">
                                 <span>Subtotal</span>
                                 <span className="font-medium text-gray-900">
@@ -165,13 +165,11 @@ export default function CartPage() {
                                 </span>
                             </div>
 
-                            {/* SHIPPING */}
                             <div className="flex justify-between text-sm">
                                 <span>Shipping</span>
                                 <span className="font-medium text-gray-900">Free</span>
                             </div>
 
-                            {/* TAX */}
                             <div className="flex justify-between text-sm">
                                 <span>Tax</span>
                                 <span className="font-medium text-gray-900">₹0.00</span>
@@ -180,12 +178,13 @@ export default function CartPage() {
                             <div className="border-t border-gray-200 pt-4 flex justify-between items-center">
                                 <span className="text-lg font-semibold">Total</span>
                                 <span className="text-xl font-semibold text-gray-900">
-                                    ₹{cart?.items?.reduce((sum, i) => sum + i.price * i.quantity, 0).toFixed(2)}
+                                    ₹{cart?.items
+                                        ?.reduce((sum, i) => sum + i.price * i.quantity, 0)
+                                        .toFixed(2)}
                                 </span>
                             </div>
                         </div>
 
-                        {/* CHECKOUT BUTTON */}
                         <Link
                             to="/customer/checkout"
                             className="mt-8 block bg-black text-white text-center py-3 rounded-xl text-sm font-medium hover:bg-gray-900 transition"

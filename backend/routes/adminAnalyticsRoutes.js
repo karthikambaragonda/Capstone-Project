@@ -220,7 +220,29 @@ router.get("/recent-orders", async (req, res) => {
     }
 });
 
+router.get("/top-productss", async (req, res) => {
+    try {
+        const [rows] = await pool.query(`
+            SELECT 
+                p.id,
+                p.name,
+                p.price,
+                p.image_url,
+                SUM(oi.quantity) AS total_sold,
+                SUM(oi.quantity * oi.price) AS total_revenue
+            FROM order_items oi
+            JOIN products p ON oi.product_id = p.id
+            GROUP BY p.id, p.name, p.image_url
+            ORDER BY total_sold DESC
+            LIMIT 10;
+        `);
 
+        res.json(rows);
+    } catch (err) {
+        console.error("Error fetching top products:", err);
+        res.status(500).json({ message: "Failed to fetch top products" });
+    }
+});
 router.get("/top-products", async (req, res) => {
     try {
         const [rows] = await pool.query(`

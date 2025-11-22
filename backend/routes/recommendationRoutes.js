@@ -4,6 +4,49 @@ import { isAuthenticated } from "../middleware/auth.js";
 
 const router = express.Router();
 
+// router.get("/", isAuthenticated, async (req, res) => {
+//     try {
+//         const [cats] = await pool.query(`
+//             SELECT p.category_id, COUNT(*) AS views
+//             FROM user_activity ua
+//             JOIN products p ON ua.product_id = p.id
+//             WHERE ua.user_id = ? AND ua.action = 'view'
+//             GROUP BY p.category_id
+//             ORDER BY views DESC
+//             LIMIT 3
+//         `, [req.user.id]);
+
+//         if (cats.length === 0) {
+//             const [recent] = await pool.query(
+//                 "SELECT * FROM products ORDER BY created_at DESC LIMIT 10"
+//             );
+//             return res.json(recent);
+//         }
+
+//         const categoryIds = cats.map(c => c.category_id);
+//         const placeholders = categoryIds.map(() => '?').join(',');
+
+//         const [recommended] = await pool.query(`
+//             SELECT 
+//                 p.id, 
+//                 p.name, 
+//                 p.price, 
+//                 p.image_url, 
+//                 c.name AS category_name
+//             FROM products p
+//             LEFT JOIN categories c ON p.category_id = c.id
+//             WHERE p.category_id IN (${placeholders})
+//             ORDER BY RAND()
+//             LIMIT 10
+//         `, categoryIds);
+
+//         res.json(recommended);
+
+//     } catch (err) {
+//         console.error("Error fetching recommendations:", err);
+//         res.status(500).json({ message: "Error fetching recommendations" });
+//     }
+// });
 router.get("/", isAuthenticated, async (req, res) => {
     try {
         const [cats] = await pool.query(`
@@ -16,6 +59,7 @@ router.get("/", isAuthenticated, async (req, res) => {
             LIMIT 3
         `, [req.user.id]);
 
+        // If user has no history → show latest products
         if (cats.length === 0) {
             const [recent] = await pool.query(
                 "SELECT * FROM products ORDER BY created_at DESC LIMIT 10"
@@ -23,7 +67,18 @@ router.get("/", isAuthenticated, async (req, res) => {
             return res.json(recent);
         }
 
-        const categoryIds = cats.map(c => c.category_id);
+        // Extract category IDs & remove null
+        const categoryIds = cats
+            .map(c => c.category_id)
+            .filter(id => id !== null);
+
+        if (categoryIds.length === 0) {
+            const [recent] = await pool.query(
+                "SELECT * FROM products ORDER BY created_at DESC LIMIT 10"
+            );
+            return res.json(recent);
+        }
+
         const placeholders = categoryIds.map(() => '?').join(',');
 
         const [recommended] = await pool.query(`
@@ -39,6 +94,14 @@ router.get("/", isAuthenticated, async (req, res) => {
             ORDER BY RAND()
             LIMIT 10
         `, categoryIds);
+
+        // fallback if no products matched
+        if (recommended.length === 0) {
+            const [recent] = await pool.query(
+                "SELECT * FROM products ORDER BY created_at DESC LIMIT 10"
+            );
+            return res.json(recent);
+        }
 
         res.json(recommended);
 
@@ -104,6 +167,17 @@ router.get("/sentiment-based/:productId", async (req, res) => {
         console.error("Sentiment Recommendation Error:", err);
         res.status(500).json({ message: "Error fetching sentiment-based recommendations" });
     }
+});
+
+router.delete("/reset", isAuthenticated, async (req, res) => {
+    try {
+        await pool.query("DELETE FROM user_activity WHERE user_id = ?", [req.user.id]);
+
+        res.json({ message: "Personalization reset successfully" });
+    } catch (err) {
+        console.error("Reset Personalization Error:", err);
+        res.status(500).json({ message: "Error resetting personalization" });
+    } 
 });
 
 export default router;

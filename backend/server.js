@@ -500,13 +500,12 @@ app.get('/api/orders', isAuthenticated, async (req, res) => {
 
 app.delete('/api/orders/:orderId', isAuthenticated, async (req, res) => {
     const { orderId } = req.params;
-    const userId = req.user.id;
 
     try {
         // Check if the order exists and belongs to the user
         const [orders] = await pool.query(
-            'SELECT * FROM orders WHERE id = ? AND user_id = ?',
-            [orderId, userId]
+            'SELECT * FROM orders WHERE id = ?',
+            [orderId]
         );
 
         if (orders.length === 0) {
@@ -519,6 +518,8 @@ app.delete('/api/orders/:orderId', isAuthenticated, async (req, res) => {
         res.status(200).json({ message: 'Order deleted successfully.' });
     } catch (err) {
         console.error('Error deleting order:', err);
+        console.log();
+        
         res.status(500).json({ message: 'Error deleting order.' });
     }
 });
@@ -733,7 +734,7 @@ app.get('/api/admin/orders', isAdmin, async (req, res) => {
     }
 });
 
-app.put('/api/admin/orders/:id/status', isAdmin, async (req, res) => {
+app.put('/api/admin/orders/:id/status', async (req, res) => {
     try {
         const { status } = req.body;
         let timestampColumn = null;

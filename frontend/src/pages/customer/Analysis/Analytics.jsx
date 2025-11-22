@@ -31,7 +31,7 @@ export default function DashboardPage() {
         );
 
     return (
-        <div className="p-10 bg-[#f5f5f7] min-h-screen space-y-10">
+        <div className="p-10 bg-white min-h-screen space-y-10">
 
             {/* HEADER */}
             <header className="flex justify-between items-center">

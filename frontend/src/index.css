@@ -1,5 +1,24 @@
 @import "tailwindcss";
+@keyframes siriPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
 
+  50% {
+    transform: scale(1.4);
+    opacity: 0.4;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+}
+
+.animate-siriPulse {
+  animation: siriPulse 1.3s infinite ease-in-out;
+}
 /* Custom styles */
 .line-clamp-1 {
   display: -webkit-box;

@@ -19,6 +19,7 @@ import userActivityRoutes from "./routes/userActivityRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
 import priceAlertRoutes from "./routes/priceAlertRoutes.js";
 import rewardRoutes from "./routes/rewardRoutes.js";
+import geminiRoutes from "./routes/geminiRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -869,6 +870,8 @@ app.use("/api/user", userActivityRoutes);
 app.use("/api/recommendations", recommendationRoutes);
 app.use("/api/admin", adminAnalyticsRoutes);
 app.use("/api/admin/ai", adminAiRouter);
+app.use("/api/ai", geminiRoutes);
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

@@ -8,6 +8,7 @@ import {
     UserCircleIcon,
     TrophyIcon
 } from '@heroicons/react/24/outline';
+import { SparklesIcon } from '@heroicons/react/24/outline';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Fuse from 'fuse.js';
@@ -147,7 +148,9 @@ export default function AppleNavbar({ user, onLogout }) {
                         />
                         {searchTerm && searchResults.length > 0 && renderSearchResults()}
                     </div>
-
+                    <Link to="/customer/ai">
+                        <SparklesIcon className="h-6 w-6 text-gray-700 hover:text-black transition" />
+                    </Link>
                     {/* Wishlist */}
                     <Link to="/customer/wishlist">
                         <HeartIcon className="h-6 w-6 text-gray-700 hover:text-black transition" />

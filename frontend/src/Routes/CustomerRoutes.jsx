@@ -290,6 +290,7 @@ import Anlaytics from '../pages/customer/Analysis/Analytics';
 import CatP from '../pages/customer/Categories/catP';
 import { useAuth } from '../context/AuthContext';
 import PersonalizationPage from '../pages/customer/User/PersonalizationPage'
+import Aipage from '../pages/customer/ai';
 
 export default function CustomerRoutes() {
     const { user, loading, initialized, loginPopup } = useAuth();
@@ -328,7 +329,7 @@ export default function CustomerRoutes() {
 
                 {/* Protected */}
                 <Route path="personalization" element={user?<PersonalizationPage />: <Navigate to="/customer/login" replace />} />
-
+                <Route path="ai" element={user ? <Aipage /> : <Navigate to="/customer/login" replace />}/>
                 <Route path="cart" element={user ? <CartPage /> : <Navigate to="/customer/login" replace />} />
                 <Route path="checkout" element={user ? <CheckoutPage /> : <Navigate to="/customer/login" replace />} />
                 <Route path="profile" element={user ? <ProfilePage /> : <Navigate to="/customer/login" replace />} />

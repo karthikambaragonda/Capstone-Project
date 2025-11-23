@@ -6,18 +6,43 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
-    plugins: [
-      react(),
-      tailwindcss(),
-    ],
+    plugins: [react(), tailwindcss()],
+
     server: {
       proxy: {
-        '/api': {
-          target: env.VITE_API_URL,  // <-- Correct way
+        "/api": {
+          target: env.VITE_API_URL || "http://localhost:5000",
           changeOrigin: true,
           secure: false,
         },
       },
     },
+
+    build: {
+      outDir: "dist",
+    }
   };
 });
+
+
+// import { defineConfig } from 'vite';
+// import react from '@vitejs/plugin-react';
+// import tailwindcss from '@tailwindcss/vite';
+
+// export default defineConfig({
+//   plugins: [react(),
+//   tailwindcss(),
+//   ],
+//   server: {
+//     proxy: {
+//       '/api': {
+//         target: 'http://localhost:5000',
+//         changeOrigin: true,
+//         secure: false,
+//       },
+//     },
+//   },
+//   build: {
+//     outDir: "dist",
+//   }
+// });

@@ -9,7 +9,7 @@ import Beauty from '../../assets/images/Beauty.png';
 import auto from '../../assets/images/auto.png';
 import Stationery from '../../assets/images/Stationery.png';
 import Home from '../../assets/images/home.jpg';
-import Jewellery from '../../assets/images/Jewellery.jpg';
+import jewellery from '../../assets/images/jewellery.jpg';
 import Pet from '../../assets/images/pet.jpg';
 import foot from '../../assets/images/foot.jpg';
 import music from '../../assets/images/music.jpg';
@@ -34,7 +34,7 @@ export default function CategoryCard({ category }) {
         'Automobile Accessories': auto,
         'Stationery': Stationery,
         'Home Appliances': Home,
-        'Jewellery': Jewellery,
+        'Jewellery': jewellery,
         'Pet Supplies': Pet,
         'Footwear': foot,
         'Musical Instruments': music,

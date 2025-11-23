@@ -24,7 +24,7 @@ export default function LoginPage() {
 
             setTimeout(() => {
                 setLoginPopup(false);
-                navigate('/customer', { replace: true });
+                navigate('/', { replace: true });
             }, 1800);
         } else {
             setError(result.message);

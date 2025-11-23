@@ -308,7 +308,7 @@ export default function CustomerRoutes() {
                     path="login"
                     element={
                         user && !loginPopup
-                            ? <Navigate to="/customer" replace />
+                            ? <Navigate to="/" replace />
                             : <LoginPage />
                     }
                 />
@@ -317,7 +317,7 @@ export default function CustomerRoutes() {
                     path="register"
                     element={
                         user && !loginPopup
-                            ? <Navigate to="/customer" replace />
+                            ? <Navigate to="/" replace />
                             : <RegisterPage />
                     }
                 />
